@@ -14,34 +14,29 @@ class Arguments:
         self.kwargs = kwargs
 
     def __str__(self) -> str:
-        return ", ".join(
-            itertools.chain(
-                (f"{arg!r}" for arg in self.args),
-                (f"{key}={value!r}" for key, value in self.kwargs.items()),
-            ),
-        )
-
-    def __repr__(self) -> str:
-        return "{class_name}({arguments})".format(
-            class_name=type(self).__name__,
+        return "({arguments})".format(
             arguments=", ".join(
                 itertools.chain(
                     (f"{arg!r}" for arg in self.args),
                     (f"{key}={value!r}" for key, value in self.kwargs.items()),
-                ),
-            ),
+                )
+            )
         )
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}{self}"
 
     def __iter__(self) -> typing.Iterable[typing.Any]:
         value: typing.Any
         for value in itertools.chain(self.args, self.kwargs.values()):
             yield value
 
-    def __getitem__(self, index: int) -> typing.Any: # TODO: Support slices
+    # TODO: Support slices
+    def __getitem__(self, index: int) -> typing.Any:
         return list(self)[index]
 
     def __len__(self) -> int:
-        return len(list(self))
+        return len(self.args) + len(self.kwargs)
 
     def __call__(self, func: typing.Callable) -> typing.Any:
         return func(*self.args, **self.kwargs)
