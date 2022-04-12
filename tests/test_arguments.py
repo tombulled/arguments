@@ -38,3 +38,7 @@ def test_call(arguments: Arguments) -> None:
         assert arguments.kwargs == kwargs
 
     arguments(consumer)
+
+def test_equal(arguments: Arguments) -> None:
+    assert arguments == arguments
+    assert arguments != Arguments()
