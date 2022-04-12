@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "arguments"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Tom Bulled <26026015+tombulled@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+typing-extensions = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"

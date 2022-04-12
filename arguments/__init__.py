@@ -1,41 +1,41 @@
-import dataclasses
 import itertools
-import typing
+from typing import Any, Callable, Dict, Iterable, Tuple
+from typing_extensions import Self
 
 
-@dataclasses.dataclass(frozen=True, eq=True)
 class Arguments:
-    args: typing.Tuple[typing.Any] = dataclasses.field(default_factory=tuple)
-    kwargs: typing.Dict[str, typing.Any] = dataclasses.field(default_factory=dict)
+    args: Tuple[Any]
+    kwargs: Dict[str, Any]
 
-    def __init__(self, *args: typing.Any, **kwargs: typing.Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self.args = args
         self.kwargs = kwargs
 
     def __str__(self) -> str:
-        return "({arguments})".format(
-            arguments=", ".join(
-                itertools.chain(
-                    (f"{arg!r}" for arg in self.args),
-                    (f"{key}={value!r}" for key, value in self.kwargs.items()),
-                )
-            )
+        args: Iterable[str] = (f"{arg!r}" for arg in self.args)
+        kwargs: Iterable[str] = (
+            f"{key}={value!r}" for key, value in self.kwargs.items()
         )
 
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}{self}"
+        return ", ".join(itertools.chain(args, kwargs))
 
-    def __iter__(self) -> typing.Iterable[typing.Any]:
-        value: typing.Any
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}({self})"
+
+    def __eq__(self, rhs: Self) -> bool:
+        return self.args == rhs.args and self.kwargs == rhs.kwargs
+
+    def __iter__(self) -> Iterable[Any]:
+        value: Any
         for value in itertools.chain(self.args, self.kwargs.values()):
             yield value
 
     # TODO: Support slices
-    def __getitem__(self, index: int) -> typing.Any:
+    def __getitem__(self, index: int) -> Any:
         return list(self)[index]
 
     def __len__(self) -> int:
         return len(self.args) + len(self.kwargs)
 
-    def __call__(self, func: typing.Callable) -> typing.Any:
+    def __call__(self, func: Callable) -> Any:
         return func(*self.args, **self.kwargs)
