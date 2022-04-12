@@ -3,8 +3,7 @@ import itertools
 import typing
 
 
-# TODO: Make `args` and `kwargs` immutable?
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True, eq=True)
 class Arguments:
     args: typing.Tuple[typing.Any] = dataclasses.field(default_factory=tuple)
     kwargs: typing.Dict[str, typing.Any] = dataclasses.field(default_factory=dict)
