@@ -4,9 +4,9 @@ Arguments manager
 ## Usage
 ### Instantiation
 ```python
-import arguments
+from arguments import Arguments
 
-args = arguments.Arguments('Hello', 'World', sep=', ')
+args = Arguments('Hello', 'World', sep=', ')
 ```
 ```python
 >>> args
@@ -33,4 +33,10 @@ Arguments('Hello', 'World', sep=', ')
 ```python
 >>> args(print)
 Hello, World
+```
+
+### Union
+```python
+>>> Arguments("hello", sep=", ") | Arguments("world", sep="-")
+Arguments("hello", "world", sep="-")
 ```
