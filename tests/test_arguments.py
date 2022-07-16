@@ -20,7 +20,7 @@ def test_len(arguments: Arguments) -> None:
 
 
 def test_iter(arguments: Arguments) -> None:
-    assert tuple(arguments) == ("foo", "bar", ", ")
+    assert tuple(iter(arguments)) == ("foo", "bar", ", ")
 
 
 def test_getitem(arguments: Arguments) -> None:

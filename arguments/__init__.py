@@ -4,7 +4,7 @@ from typing_extensions import Self
 
 
 class Arguments:
-    args: Tuple[Any]
+    args: Tuple[Any, ...]
     kwargs: Dict[str, Any]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -40,8 +40,8 @@ class Arguments:
         return func(*self.args, **self.kwargs)
 
     def __or__(self, rhs: Self) -> Self:
-        args: Tuple[Any] = self.args + rhs.args
-        kwargs: Dict[str, any] = {**self.kwargs, **rhs.kwargs}
+        args: Tuple[Any, ...] = self.args + rhs.args
+        kwargs: Dict[str, Any] = {**self.kwargs, **rhs.kwargs}
 
         return self.__class__(*args, **kwargs)
 
