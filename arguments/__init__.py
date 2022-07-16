@@ -1,6 +1,7 @@
 import itertools
 from typing import Any, Callable, Dict, Iterable, Tuple
 from typing_extensions import Self
+import functools
 
 
 class Arguments:
@@ -53,3 +54,9 @@ class Arguments:
             args |= argument
 
         return args
+
+    def partial(self, func: Callable, *args: Any, **kwargs: Any) -> Callable:
+        args: Tuple[Any, ...] = self.args + args
+        kwargs: Dict[str, Any] = {**self.kwargs, **kwargs}
+
+        return functools.partial(func, *args, **kwargs)

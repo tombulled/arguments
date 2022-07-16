@@ -59,3 +59,11 @@ def test_union(arguments: Arguments) -> None:
     assert arguments.union(
         Arguments("cat", sep="."), Arguments("dog", end="!")
     ) == Arguments("foo", "bar", "cat", "dog", sep=".", end="!")
+
+
+def test_partial(arguments: Arguments) -> None:
+    def consumer(*args, **kwargs) -> None:
+        assert args == ("foo", "bar", "baz")
+        assert kwargs == {"sep": "-", "end": "!"}
+
+    arguments.partial(consumer, "baz", sep="-")(end="!")
