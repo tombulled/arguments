@@ -35,6 +35,13 @@ Arguments('Hello', 'World', sep=', ')
 Hello, World
 ```
 
+### Partial
+```python
+>>> func = args.partial(print, end="!")
+>>> func(sep="-")
+hello-world!
+```
+
 ### Union
 ```python
 >>> Arguments("hello", sep=", ") | Arguments("world", sep="-")
