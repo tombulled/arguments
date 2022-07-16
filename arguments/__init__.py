@@ -30,7 +30,6 @@ class Arguments:
         for value in itertools.chain(self.args, self.kwargs.values()):
             yield value
 
-    # TODO: Support slices
     def __getitem__(self, index: int) -> Any:
         return list(self)[index]
 
@@ -39,3 +38,18 @@ class Arguments:
 
     def __call__(self, func: Callable) -> Any:
         return func(*self.args, **self.kwargs)
+
+    def __or__(self, rhs: Self) -> Self:
+        args: Tuple[Any] = self.args + rhs.args
+        kwargs: Dict[str, any] = {**self.kwargs, **rhs.kwargs}
+
+        return self.__class__(*args, **kwargs)
+
+    def union(self, *arguments: Self) -> Self:
+        args: Arguments = self
+
+        argument: Arguments
+        for argument in arguments:
+            args |= argument
+
+        return args
