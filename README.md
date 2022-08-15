@@ -2,48 +2,83 @@
 Arguments manager
 
 ## Usage
-### Instantiation
+### `Arguments`
+#### Instantiation
 ```python
 from arguments import Arguments
 
-args = Arguments('Hello', 'World', sep=', ')
+args = Arguments("Hello", "World", sep=", ")
 ```
 ```python
 >>> args
-Arguments('Hello', 'World', sep=', ')
+Arguments("Hello", "World", sep=", ")
 ```
 
-### Attributes
+#### Attributes
 ```python
 >>> args.args
-('Hello', 'World')
+("Hello", "World")
 >>> args.kwargs
-{'sep': ', '}
+{"sep": ", "}
 ```
 
-### Iteration
+#### Iteration
 ```python
 >>> tuple(args)
-('Hello', 'World', ', ')
+("Hello", "World", ", ")
 >>> len(args)
 3
 ```
 
-### Invokation
+#### Invokation
 ```python
->>> args(print)
+>>> args.call(print)
 Hello, World
 ```
 
-### Partial
+#### Partial
 ```python
 >>> func = args.partial(print, end="!")
 >>> func(sep="-")
 hello-world!
 ```
 
-### Union
+#### Union
 ```python
 >>> Arguments("hello", sep=", ") | Arguments("world", sep="-")
 Arguments("hello", "world", sep="-")
+```
+
+### `BoundArguments`
+#### Instantiation
+```python
+from arguments import Arguments, BoundArguments
+
+def foo(message: str, exclaim: bool = False) -> None:
+    ...
+
+args: Arguments = Arguments("Hello, World")
+bound_args: BoundArguments = args.bind(foo)
+```
+```python
+>>> bound_args
+BoundArguments("Hello, World", False)
+```
+
+#### As Dictionary
+```python
+>>> bound_args.asdict()
+{"message": "Hello, World", "exclaim": False}
+```
+
+#### Get
+```python
+>>> bound_args.get("message")
+"Hello, World"
+```
+
+#### Has
+```python
+>>> bound_args.has("message")
+True
 ```
