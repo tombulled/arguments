@@ -12,6 +12,7 @@ def function() -> Callable:
 
     return say
 
+
 @pytest.fixture
 def signature(function: Callable) -> Signature:
     return inspect.signature(function)
@@ -35,14 +36,28 @@ def test_init(function: Callable, signature: Signature) -> None:
         Arguments("bar", True, "EXTRA").bind(function)
 
     assert Arguments("bar").bind(function) == BoundArguments(signature, "bar", False)
-    assert Arguments("bar", exclaim=True).bind(function) == BoundArguments(signature, "bar", exclaim=True)
+    assert Arguments("bar", exclaim=True).bind(function) == BoundArguments(
+        signature, "bar", exclaim=True
+    )
 
 
 def test_asdict(function: Callable) -> None:
-    assert Arguments("bar").bind(function).asdict() == {"message": "bar", "exclaim": False}
-    assert Arguments("bar", True).bind(function).asdict() == {"message": "bar", "exclaim": True}
-    assert Arguments("bar", exclaim=True).bind(function).asdict() == {"message": "bar", "exclaim": True}
-    assert Arguments(message="bar", exclaim=True).bind(function).asdict() == {"message": "bar", "exclaim": True}
+    assert Arguments("bar").bind(function).asdict() == {
+        "message": "bar",
+        "exclaim": False,
+    }
+    assert Arguments("bar", True).bind(function).asdict() == {
+        "message": "bar",
+        "exclaim": True,
+    }
+    assert Arguments("bar", exclaim=True).bind(function).asdict() == {
+        "message": "bar",
+        "exclaim": True,
+    }
+    assert Arguments(message="bar", exclaim=True).bind(function).asdict() == {
+        "message": "bar",
+        "exclaim": True,
+    }
 
 
 def test_get(bound_arguments: BoundArguments) -> None:

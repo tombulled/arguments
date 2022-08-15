@@ -1,9 +1,10 @@
+import functools
+import inspect
 import itertools
 from inspect import Signature
-import inspect
 from typing import Any, Callable, Dict, Iterable, Tuple
+
 from typing_extensions import Self
-import functools
 
 
 class Arguments:
@@ -87,6 +88,6 @@ class BoundArguments(Arguments):
 
     def get(self, parameter: str, /) -> Any:
         return self.asdict()[parameter]
-    
+
     def has(self, parameter: str, /) -> bool:
         return parameter in self.asdict()
