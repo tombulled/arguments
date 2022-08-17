@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "arguments"
+name = "tombulled-arguments"
 version = "0.1.5"
 description = "Arguments manager"
 authors = ["Tom Bulled <26026015+tombulled@users.noreply.github.com>"]
 license = "MIT"
+packages = [
+	{include = "arguments"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
